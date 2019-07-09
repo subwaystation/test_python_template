@@ -15,7 +15,7 @@ requirements = ['Click>=6.0', 'gfapy>=1.0.0']
 
 setup_requirements = [ ]
 
-test_requirements = [ ]
+test_requirements = ['gfapy' ]
 
 setup(
     author="Simon Heumos",
