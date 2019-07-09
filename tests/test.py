@@ -1,4 +1,5 @@
 import unittest
+import os
 from test_python_template.gfa import GFA
 from test_python_template.graph import Graph, Slice, Node, NoAnchorError, PathOverlapError, NoOverlapError, NodeMissingError
 
@@ -55,6 +56,15 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             G([['C', {1, 2, 3, 4}], ['T', {12, 16}]])
 
+# function to get the path
+def pf(wd, path):
+    return os.path.join(wd, path)
+
+# Define the working directory
+WD = os.path.dirname(__file__)
+
+# Define several test example directories
+PATH_TO_TEST_DATA = pf(WD, "test_files")
 
 class GFATest(unittest.TestCase):
     """ test class of gfa.py
@@ -70,7 +80,7 @@ class GFATest(unittest.TestCase):
 #        self.assertEqual(len(graph.gfa.to_gfa1_s().split("\n")), len(graph2.gfa.to_gfa1_s().split("\n")))
 
     def test_load_gfa_to_graph(self):
-        gfa = GFA.load_from_gfa("../test_files/test.gfa")
+        gfa = GFA.load_from_gfa(PATH_TO_TEST_DATA + "/test.gfa")
         graph = gfa.to_graph
         x = 'x'
         y = 'y'
@@ -78,13 +88,13 @@ class GFATest(unittest.TestCase):
         self.assertEqual(graph, [['CAAATAAG', {x, y, z}], ['A', {y, z}, 'G', {x}], ['C', {x, y, z}], ['TTG', {x, y, z}], ['A', {z}, 'G', {x, y}], ['AAATTTTCTGGAGTTCTAT', {x, y, z}], ['T', {x, y, z}], ['ATAT', {x, y, z}], ['T', {x, y, z}], ['CCAACTCTCTG', {x, y, z}]])
 
     def test_export_as_gfa(self):
-        gfa = GFA.load_from_gfa("../test_files/test.gfa")
+        gfa = GFA.load_from_gfa(PATH_TO_TEST_DATA + "/test.gfa")
         graph = gfa.to_graph
         new_gfa = GFA.from_graph(graph)
         self.assertFalse(self.is_different(gfa.gfa, new_gfa.gfa))
 
     def test_load_gfa_to_graph_2(self):
-        gfa = GFA.load_from_gfa("../test_files/test2.gfa")
+        gfa = GFA.load_from_gfa(PATH_TO_TEST_DATA + "/test2.gfa")
         graph = gfa.to_graph
         self.assertIsNotNone(graph)
 
